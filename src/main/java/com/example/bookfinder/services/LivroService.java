@@ -1,17 +1,23 @@
 package com.example.bookfinder.services;
 
 import com.example.bookfinder.model.DadosLivro;
-import com.example.bookfinder.model.ResultadoBusca;
-
-import java.util.List;
+import com.example.bookfinder.model.Livro;
+import com.example.bookfinder.model.ResultadoBuscaLivro;
 
 public class LivroService {
     private ConsumoAPI consumoAPI = new ConsumoAPI();
     private ConverteDados conversor = new ConverteDados();
 
-    public List<DadosLivro> buscarEProcessarLivro (String titulo) throws Exception {
+    public Livro buscarEProcessarLivro (String titulo) throws Exception {
         String json = consumoAPI.buscarDetalhesLivro(titulo);
-        ResultadoBusca resposta = conversor.obterDados(json, ResultadoBusca.class);
-        return resposta.resultadoLivros();
+        ResultadoBuscaLivro resposta = conversor.obterDados(json, ResultadoBuscaLivro.class);
+        if (resposta.resultadoLivros() == null || resposta.resultadoLivros().isEmpty()) {
+            return null;
+        } else {
+            DadosLivro dadosLivro = resposta.resultadoLivros().get(0);
+            return new Livro(dadosLivro);
+        }
+
+
     }
 }
