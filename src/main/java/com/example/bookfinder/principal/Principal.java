@@ -16,6 +16,7 @@ public class Principal {
         if (livro != null) {
             System.out.println("Nome do livro: " + livro.getTitulo());
             System.out.println("Ano de lançamento: " + livro.getAnoDeLancamento());
+            System.out.println("Numero de paginas: " + livro.getNumeroDePaginas());
             System.out.println("Autor: " + livro.getNomeAutor());
         }
 
@@ -33,6 +34,7 @@ public class Principal {
         if (autor != null) {
             System.out.println("Nome do autor: " + autor.getNomeAutor());
             System.out.println("Data de nascimento: " + autor.getAnoDeNascimento());
+            System.out.println("Data de falecimento: " + autor.getAnoDeFalecimento());
             System.out.println("Biografia: " + autor.getBiografia());
             System.out.println("Quantidade de obras publicadas: " + autor.getNumeroDeObras());
             System.out.println("Livro mais famoso: " + autor.getMelhorLivro());

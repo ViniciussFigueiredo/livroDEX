@@ -7,7 +7,8 @@ public record DadosAutor (@JsonAlias ("key") String chave,
                          @JsonAlias ("birth_date") String anoDeNascimento,
                           @JsonAlias ("bio") Object biografia,
                           @JsonAlias ("top_work" )String melhorObra,
-                          @JsonAlias ("work_count") String numeroDeObras){
+                          @JsonAlias ("work_count") String numeroDeObras,
+                          @JsonAlias("death_date") String anoDeFalecimento){
     public String getBiografiaTratada() {
         if (biografia == null) {
             return "Biografia não disponível.";

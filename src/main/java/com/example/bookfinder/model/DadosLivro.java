@@ -12,5 +12,5 @@ public record DadosLivro (@JsonAlias ("key") String chave,
                          @JsonAlias ("ratings_average") String avaliacao,
                          @JsonAlias ("cover_i") String capa,
                          @JsonAlias ("first_publish_year") Integer anoDeLancamento,
-                          @JsonAlias ("number_of_pages" ) Integer numeroDePaginas){
+                          @JsonAlias ("number_of_pages_median" ) Integer numeroDePaginas){
 }

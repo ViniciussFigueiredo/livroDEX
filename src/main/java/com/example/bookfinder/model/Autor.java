@@ -11,6 +11,7 @@ public class Autor {
     private String melhorObra;
     private String biografia;
     private String numeroDeObras;
+    private String anoDeFalecimento;
 
 
 
@@ -21,7 +22,24 @@ public class Autor {
         this.nomeAutor = dadosAutor.nomeAutor();
         this.numeroDeObras = dadosAutor.numeroDeObras();
         this.anoDeNascimento = dadosAutor.anoDeNascimento();
+        this.anoDeFalecimento = dadosAutor.anoDeFalecimento();
 
+    }
+
+    public String getMelhorObra() {
+        return melhorObra;
+    }
+
+    public void setMelhorObra(String melhorObra) {
+        this.melhorObra = melhorObra;
+    }
+
+    public String getAnoDeFalecimento() {
+        return anoDeFalecimento;
+    }
+
+    public void setAnoDeFalecimento(String anoDeFalecimento) {
+        this.anoDeFalecimento = anoDeFalecimento;
     }
 
     public String getNumeroDeObras() {

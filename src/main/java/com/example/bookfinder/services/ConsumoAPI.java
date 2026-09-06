@@ -26,7 +26,7 @@ public class ConsumoAPI {
     // 2. Buscar detalhes/descrição pelo nome do livro
     public String buscarDetalhesLivro(String tituloLivro) throws Exception {
         String urlFormatada = tituloLivro.replace(" ", "+");
-        String uri = "https://openlibrary.org/search.json?title=" + urlFormatada + "&limit=1";
+        String uri = "https://openlibrary.org/search.json?title=" + urlFormatada + "&limit=1&fields=title,first_publish_year,number_of_pages_median,author_name,key,cover_i";
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
@@ -41,7 +41,7 @@ public class ConsumoAPI {
     // 3. Buscar detalhes/biografia do autor pelo NOME
     public String buscarDetalhesAutor(String nomeAutor) throws Exception {
         String urlFormatada = nomeAutor.replace(" ", "+");
-        String uri = "https://openlibrary.org/search/authors.json?q=" + urlFormatada + "&limit=1";
+        String uri = "https://openlibrary.org/search/authors.json?q=" + urlFormatada + "&limit=1&fields=key,death_date,name,birth_date,top_work,work_count";
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
