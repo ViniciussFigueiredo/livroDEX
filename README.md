@@ -42,8 +42,8 @@ A aplicação consome dados da **Open Library API**. Foram implementados tratame
 
 1.  **Clonar o repositório:**
     ```bash
-    git clone [https://github.com/SEU_USUARIO/bookly-backend.git](https://github.com/SEU_USUARIO/bookly-backend.git)
-    cd bookly-backend
+    git clone [git@github.com:ViniciussFigueiredo/livroDEX.git](git@github.com:ViniciussFigueiredo/livroDEX.git)
+    cd livroDEX
     ```
 
 2.  **Compilar o projeto (Maven):**
@@ -91,6 +91,7 @@ Abaixo estão os principais endpoints disponíveis na API:
 
 ## 📝 Estrutura do Código
 
+```Plaintext
 src/main/java/com/example/bookfinder
  ├── BookfinderApplication.java  <-- Classe Principal
  ├── config
@@ -107,7 +108,7 @@ src/main/java/com/example/bookfinder
  └── service
       ├── AutorService.java    <-- Lógica de consumo da API OpenLibrary (Autor)
       └── LivroService.java    <-- Lógica de consumo da API OpenLibrary (Livro)
-
+```
 ## ✒️ Autor
 
-Desenvolvido por Vinícius Santos Figueiredo.
+Desenvolvido por **Vinícius Santos Figueiredo**.
