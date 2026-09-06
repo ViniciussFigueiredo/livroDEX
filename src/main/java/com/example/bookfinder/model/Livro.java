@@ -9,6 +9,9 @@ public class Livro {
     private Double avaliacao;
     private String capa;
     private Integer anoDeLancamento;
+    private Integer numeroDePaginas;
+
+
 
     public Livro (DadosLivro dadosLivro) {
         this.chave = dadosLivro.chave();
@@ -16,6 +19,7 @@ public class Livro {
         this.nomeAutor = dadosLivro.nomeAutor();
         this.anoDeLancamento = dadosLivro.anoDeLancamento();
         this.capa = dadosLivro.capa();
+        this.numeroDePaginas = dadosLivro.numeroDePaginas();
 
         try {
             this.avaliacao = Double.valueOf(dadosLivro.avaliacao());
@@ -23,6 +27,14 @@ public class Livro {
             this.avaliacao = 0.0;
         }
 
+    }
+
+    public Integer getNumeroDePaginas() {
+        return numeroDePaginas;
+    }
+
+    public void setNumeroDePaginas(Integer numeroDePaginas) {
+        this.numeroDePaginas = numeroDePaginas;
     }
 
     public String getChave() {
