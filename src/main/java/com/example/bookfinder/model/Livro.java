@@ -18,8 +18,8 @@ public class Livro {
         this.titulo = dadosLivro.titulo();
         this.nomeAutor = dadosLivro.nomeAutor();
         this.anoDeLancamento = dadosLivro.anoDeLancamento();
-        this.capa = dadosLivro.capa();
         this.numeroDePaginas = dadosLivro.numeroDePaginas();
+        this.capa = "https://covers.openlibrary.org/b/id/" + dadosLivro.capa() + "-M.jpg";
 
         try {
             this.avaliacao = Double.valueOf(dadosLivro.avaliacao());

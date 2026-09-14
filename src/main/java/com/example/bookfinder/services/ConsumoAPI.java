@@ -4,39 +4,45 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 
 public class ConsumoAPI {
-    private final HttpClient client = HttpClient.newHttpClient();
+    // Adicionado tempo limite de conexão no HttpClient
+    private final HttpClient client = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(10))
+            .build();
 
     // 1. Buscar livros por autor
     public String buscarPorAutor(String nomeAutor) throws Exception {
         String urlFormatada = nomeAutor.replace(" ", "+");
-        String uri = "https://openlibrary.org/search.json?author=" + urlFormatada + "&fields=key,title,author_name,ratings_average,cover_i,first_publish_year";
+        String uri = "https://openlibrary.org/search.json?author=" + urlFormatada + "&limit=1&fields=key,title,author_name,ratings_average,cover_i,first_publish_year";
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
+                .header("User-Agent", "BooklyApp/1.0 (contato@bookly.com)")
+                .timeout(Duration.ofSeconds(10))
                 .GET()
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return response.body();
     }
-
 
     // 2. Buscar detalhes/descrição pelo nome do livro
     public String buscarDetalhesLivro(String tituloLivro) throws Exception {
         String urlFormatada = tituloLivro.replace(" ", "+");
-        String uri = "https://openlibrary.org/search.json?title=" + urlFormatada + "&limit=1&fields=title,first_publish_year,number_of_pages_median,author_name,key,cover_i";
+        String uri = "https://openlibrary.org/search.json?title=" + urlFormatada + "&limit=1&fields=title,first_publish_year,number_of_pages_median,author_name,key,cover_i,ratings_average";
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
+                .header("User-Agent", "BooklyApp/1.0 (contato@bookly.com)")
+                .timeout(Duration.ofSeconds(10))
                 .GET()
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return response.body();
     }
-
 
     // 3. Buscar detalhes/biografia do autor pelo NOME
     public String buscarDetalhesAutor(String nomeAutor) throws Exception {
@@ -45,6 +51,8 @@ public class ConsumoAPI {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
+                .header("User-Agent", "BooklyApp/1.0 (contato@bookly.com)")
+                .timeout(Duration.ofSeconds(10))
                 .GET()
                 .build();
 
