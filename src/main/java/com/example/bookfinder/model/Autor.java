@@ -12,18 +12,26 @@ public class Autor {
     private String biografia;
     private String numeroDeObras;
     private String anoDeFalecimento;
+    private String fotos;
 
-
-
-    public Autor (DadosAutor dadosAutor) {
+    public Autor (DadosAutor dadosAutor, DadosAutor dadosBio) {
         this.chave = dadosAutor.chave();
-        this.biografia = dadosAutor.getBiografiaTratada();
+        this.biografia = dadosBio.getBiografiaTratada();
         this.melhorObra = dadosAutor.melhorObra();
         this.nomeAutor = dadosAutor.nomeAutor();
         this.numeroDeObras = dadosAutor.numeroDeObras();
         this.anoDeNascimento = dadosAutor.anoDeNascimento();
         this.anoDeFalecimento = dadosAutor.anoDeFalecimento();
+        this.fotos = dadosAutor.getFotoUrl();
 
+    }
+
+    public String getFotos() {
+        return fotos;
+    }
+
+    public void setFotos(String fotos) {
+        this.fotos = fotos;
     }
 
     public String getMelhorObra() {

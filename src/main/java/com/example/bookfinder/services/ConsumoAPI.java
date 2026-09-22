@@ -15,7 +15,7 @@ public class ConsumoAPI {
     // 1. Buscar livros por autor
     public String buscarPorAutor(String nomeAutor) throws Exception {
         String urlFormatada = nomeAutor.replace(" ", "+");
-        String uri = "https://openlibrary.org/search.json?author=" + urlFormatada + "&limit=1&fields=key,title,author_name,ratings_average,cover_i,first_publish_year";
+        String uri = "https://openlibrary.org/search.json?author=" + urlFormatada + "&limit=5&fields=key,title,author_name,ratings_average,cover_i,first_publish_year";
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
@@ -57,6 +57,25 @@ public class ConsumoAPI {
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        return response.body();
+    }
+
+    public String buscarBioAutor(String chave) throws Exception {
+        String uri = "https://openlibrary.org/authors/" + chave + ".json";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri))
+                .header("User-Agent", "BooklyApp/1.0 (contato@bookly.com)")
+                .timeout(Duration.ofSeconds(10))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(
+                request,
+                HttpResponse.BodyHandlers.ofString()
+        );
+
         return response.body();
     }
 }

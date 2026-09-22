@@ -16,7 +16,12 @@ public class AutorService {
             return null;
         } else {
             DadosAutor dadosAutor = resposta.resultadoAutor().get(0);
-            return new Autor(dadosAutor);
+
+            String jsonBio = consumoAPI.buscarBioAutor(dadosAutor.chave());
+
+            DadosAutor dadosBio = conversor.obterDados(jsonBio, DadosAutor.class);
+
+            return new Autor(dadosAutor, dadosBio);
         }
     }
 
@@ -28,7 +33,7 @@ public class AutorService {
         } else {
             return resposta.resultadoLivros().stream()
                     .map(Livro::new)
-                    .limit(10)
+                    .limit(5)
                     .toList();
         }
     }
