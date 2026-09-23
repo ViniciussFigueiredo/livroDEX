@@ -9,20 +9,41 @@ public class AutorService {
     private ConsumoAPI consumoAPI = new ConsumoAPI();
     private ConverteDados conversor = new ConverteDados();
 
-    public Autor buscarInfoAutor (String nomeAutor) throws Exception{
+    public Autor buscarInfoAutor(String nomeAutor) throws Exception {
+
         String json = consumoAPI.buscarDetalhesAutor(nomeAutor);
-        ResultadoBuscaAutor resposta = conversor.obterDados(json, ResultadoBuscaAutor.class);
+
+        ResultadoBuscaAutor resposta =
+                conversor.obterDados(json, ResultadoBuscaAutor.class);
+
         if (resposta.resultadoAutor() == null || resposta.resultadoAutor().isEmpty()) {
             return null;
-        } else {
-            DadosAutor dadosAutor = resposta.resultadoAutor().get(0);
-
-            String jsonBio = consumoAPI.buscarBioAutor(dadosAutor.chave());
-
-            DadosAutor dadosBio = conversor.obterDados(jsonBio, DadosAutor.class);
-
-            return new Autor(dadosAutor, dadosBio);
         }
+
+        DadosAutor dadosAutor = resposta.resultadoAutor().get(0);
+
+        String jsonWikipedia = consumoAPI.buscarBiografiaWikipedia(nomeAutor);
+
+        String biografiaWikipedia = null;
+
+        if (jsonWikipedia != null) {
+            DadosWikipedia dadosWikipedia =
+                    conversor.obterDados(jsonWikipedia, DadosWikipedia.class);
+
+            biografiaWikipedia = dadosWikipedia.biografia();
+        }
+
+        String biografia = biografiaWikipedia;
+
+        if (biografia == null || biografia.isBlank()) {
+            biografia = dadosAutor.getBiografiaTratada();
+        }
+
+        if (biografia.length() > 400) {
+            biografia = biografia.substring(0, 400) + "...";
+        }
+
+        return new Autor(dadosAutor, biografia);
     }
 
     public List <Livro> buscarLivrosDoAutor (String nomeAutor) throws Exception {

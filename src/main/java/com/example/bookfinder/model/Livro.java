@@ -8,14 +8,14 @@ public class Livro {
     private List<String> nomeAutor;
     private Double avaliacao;
     private String capa;
+    private String descricao;
     private Integer anoDeLancamento;
     private Integer numeroDePaginas;
 
-
-
-    public Livro (DadosLivro dadosLivro) {
+    public Livro (DadosLivro dadosLivro, String descricao) {
         this.chave = dadosLivro.chave();
         this.titulo = dadosLivro.titulo();
+        this.descricao = descricao;
         this.nomeAutor = dadosLivro.nomeAutor();
         this.anoDeLancamento = dadosLivro.anoDeLancamento();
         this.numeroDePaginas = dadosLivro.numeroDePaginas();
@@ -28,6 +28,19 @@ public class Livro {
         }
 
     }
+
+    public Livro(DadosLivro dadosLivro) {
+        this(dadosLivro, null); // Chama o construtor acima passando descricao como null
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
 
     public Integer getNumeroDePaginas() {
         return numeroDePaginas;

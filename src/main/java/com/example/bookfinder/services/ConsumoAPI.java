@@ -78,4 +78,55 @@ public class ConsumoAPI {
 
         return response.body();
     }
+
+    public String buscarBiografiaWikipedia(String nomeAutor) throws Exception {
+
+        String nomeFormatado = nomeAutor.replace(" ", "_");
+
+        String uri = "https://pt.wikipedia.org/api/rest_v1/page/summary/"
+                + nomeFormatado;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri))
+                .header("User-Agent", "BooklyApp/1.0 (contato@bookly.com)")
+                .timeout(Duration.ofSeconds(10))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(
+                request,
+                HttpResponse.BodyHandlers.ofString()
+        );
+
+        if (response.statusCode() == 200) {
+            return response.body();
+        }
+
+        return null;
+    }
+
+    public String buscarDescricaoLivro(String chaveLivro) throws Exception {
+
+        String chave = chaveLivro.replace("/works/", "");
+
+        String uri = "https://openlibrary.org/works/" + chave + ".json";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri))
+                .header("User-Agent", "BooklyApp/1.0 (contato@bookly.com)")
+                .timeout(Duration.ofSeconds(10))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(
+                request,
+                HttpResponse.BodyHandlers.ofString()
+        );
+
+        if (response.statusCode() == 200) {
+            return response.body();
+        }
+
+        return null;
+    }
 }

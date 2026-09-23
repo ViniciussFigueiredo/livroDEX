@@ -14,9 +14,9 @@ public class Autor {
     private String anoDeFalecimento;
     private String fotos;
 
-    public Autor (DadosAutor dadosAutor, DadosAutor dadosBio) {
+    public Autor (DadosAutor dadosAutor, String biografia) {
         this.chave = dadosAutor.chave();
-        this.biografia = dadosBio.getBiografiaTratada();
+        this.biografia = biografia;
         this.melhorObra = dadosAutor.melhorObra();
         this.nomeAutor = dadosAutor.nomeAutor();
         this.numeroDeObras = dadosAutor.numeroDeObras();
