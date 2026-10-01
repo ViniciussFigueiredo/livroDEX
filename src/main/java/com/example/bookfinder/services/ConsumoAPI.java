@@ -5,6 +5,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import com.example.bookfinder.model.DadosSecaoWikipedia;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import java.util.List;
 
 public class ConsumoAPI {
     // Adicionado tempo limite de conexão no HttpClient
@@ -125,6 +129,114 @@ public class ConsumoAPI {
 
         if (response.statusCode() == 200) {
             return response.body();
+        }
+
+        return null;
+    }
+
+    public List<DadosSecaoWikipedia> buscarSinopseWikipedia(String tituloLivro) throws Exception {
+
+        String tituloFormatado = tituloLivro.replace(" ", "_");
+
+        String uri = "https://pt.wikipedia.org/w/api.php"
+                + "?action=parse"
+                + "&page=" + tituloFormatado
+                + "&prop=sections"
+                + "&format=json";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri))
+                .header("User-Agent", "BooklyApp/1.0 (contato@bookly.com)")
+                .timeout(Duration.ofSeconds(10))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(
+                request,
+                HttpResponse.BodyHandlers.ofString()
+        );
+
+        if (response.statusCode() != 200) {
+            return null;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        JsonNode raiz = mapper.readTree(response.body());
+
+        JsonNode secoes = raiz
+                .get("parse")
+                .get("sections");
+
+        List<DadosSecaoWikipedia> resultado = new java.util.ArrayList<>();
+
+        for (JsonNode secao : secoes) {
+
+            String titulo = secao.get("line").asText();
+            String indice = secao.get("index").asText();
+
+            resultado.add(
+                    new DadosSecaoWikipedia(titulo, indice)
+            );
+        }
+
+
+        return resultado;
+    }
+
+    public String buscarTextoSecaoWikipedia(String tituloLivro, String indiceSecao) throws Exception {
+        String tituloFormatado = tituloLivro.replace(" ", "_");
+
+        String uri = "https://pt.wikipedia.org/w/api.php"
+                + "?action=parse"
+                + "&page=" + tituloFormatado
+                + "&section=" + indiceSecao
+                + "&prop=text"
+                + "&format=json";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri))
+                .header("User-Agent", "BooklyApp/1.0 (contato@bookly.com)")
+                .timeout(Duration.ofSeconds(10))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() != 200) {
+            return null;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode raiz = mapper.readTree(response.body());
+
+        if (raiz.has("parse") && raiz.get("parse").has("text")) {
+            String htmlText = raiz.get("parse").get("text").get("*").asText();
+
+            String textoLimpo = htmlText.replaceAll("(?s)<style.*?>.*?</style>", "")
+                    .replaceAll("(?s)<script.*?>.*?</script>", "");
+
+            textoLimpo = textoLimpo.replaceAll("(?s)<sup.*?>.*?</sup>", "");
+
+            textoLimpo = textoLimpo.replace("&nbsp;", " ")
+                    .replace("&#160;", " ")
+                    .replace("&#91;", "[")
+                    .replace("&#93;", "]")
+                    .replace("&quot;", "\"")
+                    .replace("&amp;", "&");
+
+            textoLimpo = textoLimpo.replaceAll("<[^>]*>", "");
+
+            textoLimpo = textoLimpo.replaceAll("(?i)^(enredo|sinopse|trama|argumento)\\[editar\\s*\\|\\s*editar\\s*código\\]", "");
+
+            textoLimpo = textoLimpo.replaceAll("↑.*", "");
+
+
+            textoLimpo = textoLimpo.replaceAll("\\[\\d+\\]", "");
+
+            textoLimpo = textoLimpo.replaceAll("\\s+", " ").trim();
+
+            return textoLimpo;
         }
 
         return null;
