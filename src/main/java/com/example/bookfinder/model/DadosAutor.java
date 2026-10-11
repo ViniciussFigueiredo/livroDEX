@@ -1,9 +1,9 @@
 package com.example.bookfinder.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public record DadosAutor (@JsonAlias ("key") String chave,
                          @JsonAlias ("name") String nomeAutor,
@@ -66,6 +66,22 @@ public record DadosAutor (@JsonAlias ("key") String chave,
         }
 
         return null;
+    }
+
+    public String getDataNascimento () {
+        String data = anoDeNascimento;
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
+        LocalDate dataConvertida = LocalDate.parse(data, formato);
+        DateTimeFormatter formatoSaida = DateTimeFormatter.ofPattern("d 'de' MMM 'de' yyyy", Locale.forLanguageTag("pt-BR"));
+        return dataConvertida.format(formatoSaida);
+    }
+
+    public String getDataFalecimento () {
+        String data = anoDeFalecimento;
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
+        LocalDate dataConvertida = LocalDate.parse(data, formato);
+        DateTimeFormatter formatoSaida = DateTimeFormatter.ofPattern("d 'de' MMM 'de' yyyy", Locale.forLanguageTag("pt-BR"));
+        return dataConvertida.format(formatoSaida);
     }
 
 

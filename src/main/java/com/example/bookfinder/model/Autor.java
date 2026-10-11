@@ -1,8 +1,5 @@
 package com.example.bookfinder.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-
-import java.util.List;
 
 public class Autor {
     private String chave;
@@ -15,13 +12,16 @@ public class Autor {
     private String fotos;
 
     public Autor (DadosAutor dadosAutor, String biografia) {
+
+
+
         this.chave = dadosAutor.chave();
         this.biografia = biografia;
         this.melhorObra = dadosAutor.melhorObra();
         this.nomeAutor = dadosAutor.nomeAutor();
         this.numeroDeObras = dadosAutor.numeroDeObras();
-        this.anoDeNascimento = dadosAutor.anoDeNascimento();
-        this.anoDeFalecimento = dadosAutor.anoDeFalecimento();
+        this.anoDeNascimento = dadosAutor.getDataNascimento();
+        this.anoDeFalecimento = dadosAutor.getDataFalecimento();
         this.fotos = dadosAutor.getFotoUrl();
 
     }
