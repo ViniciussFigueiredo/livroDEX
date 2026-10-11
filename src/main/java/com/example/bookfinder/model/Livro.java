@@ -19,7 +19,11 @@ public class Livro {
         this.nomeAutor = dadosLivro.nomeAutor();
         this.anoDeLancamento = dadosLivro.anoDeLancamento();
         this.numeroDePaginas = dadosLivro.numeroDePaginas();
-        this.capa = "https://covers.openlibrary.org/b/id/" + dadosLivro.capa() + "-M.jpg";
+        if (dadosLivro.capa() != null) {
+            this.capa = "https://covers.openlibrary.org/b/id/" + dadosLivro.capa() + "-M.jpg";
+        } else {
+            this.capa = null;
+        }
 
         try {
             this.avaliacao = Double.valueOf(dadosLivro.avaliacao());

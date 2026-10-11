@@ -85,4 +85,28 @@ public class LivroService {
 
         return new Livro(dadosLivro, descricao);
     }
+
+
+    public List<Livro> buscarSugestoes(String termo) throws Exception {
+        String json = consumoAPI.buscarLivrosParaSugestoes(termo);
+
+        ResultadoBuscaLivro resposta =
+                conversor.obterDados(json, ResultadoBuscaLivro.class);
+
+        if (resposta == null || resposta.resultadoLivros() == null) {
+            return List.of();
+        }
+
+        String termoNormalizado = termo.toLowerCase().trim();
+
+        return resposta.resultadoLivros().stream()
+                .filter(dados -> dados.titulo() != null)
+                .filter(dados -> dados.titulo()
+                        .toLowerCase()
+                        .startsWith(termoNormalizado))
+                .map(Livro::new)
+                .limit(5)
+                .toList();
+    }
+
 }

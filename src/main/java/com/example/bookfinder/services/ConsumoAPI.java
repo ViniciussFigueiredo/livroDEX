@@ -241,4 +241,31 @@ public class ConsumoAPI {
 
         return null;
     }
+
+
+    public String buscarLivrosParaSugestoes(String termo) throws Exception {
+        String termoFormatado = java.net.URLEncoder.encode(
+                termo,
+                java.nio.charset.StandardCharsets.UTF_8
+        );
+
+        String uri = "https://openlibrary.org/search.json?title="
+                + termoFormatado
+                + "&limit=10&fields=key,title,author_name,cover_i";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uri))
+                .header("User-Agent", "BooklyApp/1.0 (contato@bookly.com)")
+                .timeout(Duration.ofSeconds(10))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(
+                request,
+                HttpResponse.BodyHandlers.ofString()
+        );
+
+        return response.body();
+    }
+
 }
